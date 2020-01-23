@@ -5,20 +5,29 @@ import java.util.*;
 /**
  * Class for managing the rovers that are deployed on the Mars exploration grid.
  */
-public class MissionCommandCenter {
+public final class MissionCommandCenter {
     private int gridWidth;
     private int gridHeight;
     private List<Rover> rovers;
 
     // TODO 1) Make MCC a singleton class
+    private static volatile MissionCommandCenter instance = null;
+
+    private MissionCommandCenter() {
+    }
 
     /**
      * Create a MCC without a predefined grid size.
      */
-    public MissionCommandCenter() {
-        this.gridWidth = -1;
-        this.gridHeight = -1;
-        this.rovers = new ArrayList<>();
+    public static MissionCommandCenter getInstance() {
+        if(instance == null){
+            synchronized (MissionCommandCenter.class) {
+                if (instance == null) {
+                    instance = new MissionCommandCenter();
+                }
+            }
+        }
+        return instance;
     }
 
     /**
@@ -121,6 +130,11 @@ public class MissionCommandCenter {
                     "Position out of grid ! Communication signal weak.");
 
         // TODO 2) Throw an InvalidRoverPositionException if there is another rover on the rover's current position.
+        for (Rover r : this.rovers) {
+            if (rover.getX() == r.getX() && rover.getY() == r.getY())
+                throw new InvalidRoverPositionException(rover,
+                        "Il y a collision entre deux rovers sur une même position de la grille");
+        }
     }
 
     /**
