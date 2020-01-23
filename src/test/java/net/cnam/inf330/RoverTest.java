@@ -33,12 +33,17 @@ public class RoverTest {
     public void testRoverOutOfGridException() {
         MissionCommandCenter mcc = new MissionCommandCenter(1, 1);
         Rover rover = new Rover(1, 0, 0, Orientation.N);
+        Rover rover2 = new Rover(-1, -1, -1, Orientation.N);
         mcc.addRover(rover);
+        mcc.addRover(rover2);
         rover.moveForward();
         rover.moveForward();
 
         ThrowingRunnable tr = () -> mcc.checkRoverPosition(rover);
         assertThrows(InvalidRoverPositionException.class, tr);
+
+        ThrowingRunnable tr2 = () -> mcc.checkRoverPosition(rover2);
+        assertThrows(InvalidRoverPositionException.class, tr2);
 
         mcc.clearRovers();
     }
@@ -48,12 +53,34 @@ public class RoverTest {
      */
     @Test
     public void testCheckRoverPosition(){
+        MissionCommandCenter mcc = new MissionCommandCenter(1, 1);
+        Rover rover1 = new Rover(1,0,0,Orientation.N);
+        Rover rover2 = new Rover(1,0,0,Orientation.N);
+        mcc.addRover(rover1);
+        mcc.addRover(rover2);
 
+        ThrowingRunnable tr1 = () -> mcc.checkRoverPosition(rover1);
+        ThrowingRunnable tr2 = () -> mcc.checkRoverPosition(rover2);
+        assertThrows(InvalidRoverPositionException.class, tr1);
+        assertThrows(InvalidRoverPositionException.class, tr2);
+
+        mcc.clearRovers();
     }
 
     /* TODO 5) Write a new test for a scenario where a rover is created at an invalid position
      *   and is not deployed as a result
      */
+    @Test
+    public void testInvalidPosition(){
+        MissionCommandCenter mcc = new MissionCommandCenter(1, 1);
+        Rover rover1 = new Rover(1,-1,-1,Orientation.N);
+        mcc.addRover(rover1);
+
+        ThrowingRunnable tr1 = () -> mcc.checkRoverPosition(rover1);
+        assertThrows(InvalidRoverPositionException.class, tr1);
+
+        mcc.clearRovers();
+    }
 
     /**
      * Application must produce output data that matches the expected output after processing the input rover data.

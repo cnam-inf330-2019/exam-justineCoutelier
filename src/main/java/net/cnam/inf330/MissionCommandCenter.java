@@ -48,7 +48,7 @@ public final class MissionCommandCenter {
      * @param lines The lines representing the rover data to process
      * @return The lines of output data describing the final positions of all managed Rovers.
      */
-    public List<String> processRoverData(List<String> lines) {
+    public List<String> processRoverData(List<String> lines) throws InvalidRoverPositionException {
         System.out.println("Processing rover data...");
 
         String[] splitFirstLine = lines.remove(0).split(" ");
@@ -90,7 +90,7 @@ public final class MissionCommandCenter {
      * @return The newly deployed Rover at its final position
      */
     public Rover deployAndMoveRover(int roverId, String roverInitialPosition,
-                                    String roverInstructions) {
+                                    String roverInstructions) throws InvalidRoverPositionException {
         System.out.println("* Established communication signal with rover " + roverId + ".");
 
         String[] splitRoverInitialPositionData = roverInitialPosition.split(" ");
@@ -105,6 +105,7 @@ public final class MissionCommandCenter {
             checkRoverPosition(rover);
         } catch (InvalidRoverPositionException e) {
             // TODO 4) b) Don't deploy the rover if its initial position is invalid
+
             System.out.println("### WARNING : " + e.getMessage());
         }
 
@@ -112,6 +113,7 @@ public final class MissionCommandCenter {
         for (Character c : roverInstructions.toCharArray()) {
             rover.processCommand(RoverCommand.valueOf(String.valueOf(c)));
             // TODO 4) a) Make the rover pull back if the move is invalid
+            rover.moveForward();
         }
 
         System.out.println("Terminated communication with rover " + roverId + ".");
