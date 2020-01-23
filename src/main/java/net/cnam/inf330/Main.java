@@ -1,5 +1,7 @@
 package net.cnam.inf330;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -19,17 +21,36 @@ public class Main {
      * @throws IOException
      * @throws URISyntaxException
      */
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static void main(String[] args) throws IOException, URISyntaxException, InvalidRoverPositionException {
         List<String> lines = Main.readResourceFile("rover_data.txt");
         MissionCommandCenter mcc = new MissionCommandCenter();
         List<String> outputLines = mcc.processRoverData(lines);
 
         System.out.println("\n===========");
-        for (String line : outputLines)
+        StringBuilder fichierSortie = new StringBuilder();
+        for (String line : outputLines) {
             System.out.println(line);
+            fichierSortie.append(line);
+        }
         System.out.println("===========");
 
         // TODO 8) Write output lines to file
+        File file = createFile("C:\\Users\\ELE5bc943f9005a3\\Desktop\\rover_test_outuput.txt");
+        writeFile(file,fichierSortie);
+    }
+
+    private static File createFile(String nomFichier) throws IOException {
+        File fichier = new File(nomFichier);
+        fichier.createNewFile();
+        return fichier;
+
+    }
+    private static FileWriter writeFile(File f, StringBuilder texte) throws IOException {
+        FileWriter fichier = new FileWriter(f);
+        fichier.write(String.valueOf(texte));
+        fichier.close();
+        return fichier;
+
     }
 
     /**

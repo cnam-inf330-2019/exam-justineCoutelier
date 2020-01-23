@@ -13,7 +13,7 @@ public final class MissionCommandCenter {
     // TODO 1) Make MCC a singleton class
     private static volatile MissionCommandCenter instance = null;
 
-    private MissionCommandCenter() {
+    MissionCommandCenter() {
     }
 
     /**
@@ -148,7 +148,12 @@ public final class MissionCommandCenter {
      */
     public double computeRoverCoveragePercent(Rover rover) {
         // TODO 6) Compute the rover's grid coverage percentage
-        return 0d;
+        int nbPositionsRover = 0;
+        for (Rover r : this.rovers) {
+            nbPositionsRover++;
+        }
+        double nbPositionsTot = this.gridHeight*this.gridWidth;
+        return nbPositionsRover/nbPositionsTot;
     }
 
     /**
