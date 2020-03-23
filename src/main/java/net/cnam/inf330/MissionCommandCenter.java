@@ -14,6 +14,7 @@ public final class MissionCommandCenter {
     private static volatile MissionCommandCenter instance = null;
 
     MissionCommandCenter() {
+        // FIXME ???
     }
 
     /**
@@ -29,6 +30,7 @@ public final class MissionCommandCenter {
         }
         return instance;
     }
+    // FIXME Missing second getInstance with parameters
 
     /**
      * Create a MCC with a predefined grid size.
@@ -36,6 +38,7 @@ public final class MissionCommandCenter {
      * @param gridWidth  The width (X axis) of the exploration grid
      * @param gridHeight The height (Y axis) of the exploration grid
      */
+    // FIXME Constructor should be private
     public MissionCommandCenter(int gridWidth, int gridHeight) {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
@@ -104,7 +107,7 @@ public final class MissionCommandCenter {
         try {
             checkRoverPosition(rover);
         } catch (InvalidRoverPositionException e) {
-            // TODO 4) b) Don't deploy the rover if its initial position is invalid
+            // TODO FIXME 4) b) Don't deploy the rover if its initial position is invalid
 
             System.out.println("### WARNING : " + e.getMessage());
         }
@@ -113,7 +116,7 @@ public final class MissionCommandCenter {
         for (Character c : roverInstructions.toCharArray()) {
             rover.processCommand(RoverCommand.valueOf(String.valueOf(c)));
             // TODO 4) a) Make the rover pull back if the move is invalid
-            rover.moveForward();
+            rover.moveForward(); // FIXME Move backward, not forward
         }
 
         System.out.println("Terminated communication with rover " + roverId + ".");
@@ -149,8 +152,9 @@ public final class MissionCommandCenter {
     public double computeRoverCoveragePercent(Rover rover) {
         // TODO 6) Compute the rover's grid coverage percentage
         int nbPositionsRover = 0;
+
         for (Rover r : this.rovers) {
-            nbPositionsRover++;
+            nbPositionsRover++; // FIXME This is the number of rovers, not the rover's distinct positions
         }
         double nbPositionsTot = this.gridHeight*this.gridWidth;
         return nbPositionsRover/nbPositionsTot;

@@ -45,6 +45,8 @@ public class RoverTest {
         ThrowingRunnable tr2 = () -> mcc.checkRoverPosition(rover2);
         assertThrows(InvalidRoverPositionException.class, tr2);
 
+        // FIXME Check that rover has pulled back
+
         mcc.clearRovers();
     }
 
@@ -64,6 +66,8 @@ public class RoverTest {
         assertThrows(InvalidRoverPositionException.class, tr1);
         assertThrows(InvalidRoverPositionException.class, tr2);
 
+        // FIXME Check that rover has pulled back
+
         mcc.clearRovers();
     }
 
@@ -79,6 +83,8 @@ public class RoverTest {
         ThrowingRunnable tr1 = () -> mcc.checkRoverPosition(rover1);
         assertThrows(InvalidRoverPositionException.class, tr1);
 
+        // FIXME Check that rover is not deployed (is null)
+
         mcc.clearRovers();
     }
 
@@ -90,7 +96,7 @@ public class RoverTest {
         List<String> inputLines = Main.readResourceFile("rover_test_input.txt");
         List<String> expectedOutputLines = Main.readResourceFile("rover_test_output.txt");
 
-        // TODO 7) Test that processing the input lines produces an output that matches the expected output lines
+        // TODO FIXME 7) Test that processing the input lines produces an output that matches the expected output lines
         fail();
     }
 }
